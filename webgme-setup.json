@@ -1,0 +1,15 @@
+{
+  "components": {
+    "plugins": {
+      "TemplateCreator": {
+        "src": "src/plugins/TemplateCreator",
+        "test": "test/plugins/TemplateCreator"
+      }
+    },
+    "seeds": {}
+  },
+  "dependencies": {
+    "plugins": {},
+    "seeds": {}
+  }
+}
