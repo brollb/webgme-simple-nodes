@@ -125,8 +125,7 @@ define(['plugin/PluginConfig',
         var output = this.generator.createOutputFiles(tree);
 
         // Save file
-        var name = this.core.getAttribute(this.activeNode, 'name')+
-              '_'+this.getCurrentConfig().template;
+        var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
 
         this._saveOutput(name, output, callback);
 
