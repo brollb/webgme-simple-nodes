@@ -7,5 +7,9 @@ var config = require('./config.webgme'),
 // config.server.port = 8080;
 // config.mongo.uri = mongodb://127.0.0.1:27017/webgme_my_app;
 
+config.requirejsPaths = {
+  'TemplateCreator': 'src/plugins/TemplateCreator'
+};
+
 validateConfig(config);
 module.exports = config;

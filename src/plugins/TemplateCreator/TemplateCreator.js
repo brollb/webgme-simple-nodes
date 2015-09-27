@@ -66,6 +66,11 @@ define(['plugin/PluginConfig',
         return false;
     };
 
+    TemplateCreator.prototype._isConnection = function(node){
+        var ptrs = this.core.getPointerNames(node);
+        return ptrs.indexOf('src') !== -1 && ptrs.indexOf('dst') !== -1;
+    };
+
     TemplateCreator.prototype.getNode = function(nodePath){
         // we check only our node cache
         return this._nodeCache[nodePath];
@@ -178,7 +183,7 @@ define(['plugin/PluginConfig',
 
         for (i = nodeIds.length; i--;) {
             node = this.getNode(nodeIds[i]);
-            if (!this._isTypeOf(node, this.META.LayerConnector)) {
+            if (!this._isConnection(node)) {
                 vnode = this.createVirtualNode(node);
                 base = this.core.getBase(node);
                 vnode[Constants.BASE] = this.createVirtualNode(base);

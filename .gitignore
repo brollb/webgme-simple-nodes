@@ -1,1 +1,4 @@
 node_modules/
+blob-local-storage/
+test-tmp/
+*.log

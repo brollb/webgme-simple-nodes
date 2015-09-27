@@ -4,9 +4,17 @@
       "TemplateCreator": {
         "src": "src/plugins/TemplateCreator",
         "test": "test/plugins/TemplateCreator"
+      },
+      "ExamplePlugin": {
+        "src": "src/plugins/ExamplePlugin",
+        "test": "test/plugins/ExamplePlugin"
       }
     },
-    "seeds": {}
+    "seeds": {
+      "ExampleModel": {
+        "src": "src/seeds/ExampleModel"
+      }
+    }
   },
   "dependencies": {
     "plugins": {},
