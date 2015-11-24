@@ -14,10 +14,18 @@
       "ExampleModel": {
         "src": "src/seeds/ExampleModel"
       }
-    }
+    },
+    "addons": {},
+    "decorators": {},
+    "layouts": {},
+    "visualizers": {}
   },
   "dependencies": {
     "plugins": {},
-    "seeds": {}
+    "seeds": {},
+    "addons": {},
+    "decorators": {},
+    "layouts": {},
+    "visualizers": {}
   }
 }

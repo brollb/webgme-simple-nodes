@@ -73,4 +73,25 @@ describe('ExamplePlugin', function () {
             done();
         });
     });
+
+    it('should run plugin on cyclic graphs', function (done) {
+        var manager = new PluginCliManager(null, logger, gmeConfig),
+            pluginConfig = {
+            },
+            context = {
+                project: project,
+                commitHash: commitHash,
+                branchName: 'test',
+                activeNode: '/253167239',
+            };
+
+        manager.executePlugin(pluginName, pluginConfig, context, function (err, pluginResult) {
+            expect(err).to.equal(null);
+            expect(typeof pluginResult).to.equal('object');
+            expect(pluginResult.success).to.equal(true);
+
+            // TODO: Get the results and check them
+            done();
+        });
+    });
 });
