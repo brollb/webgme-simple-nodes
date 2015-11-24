@@ -265,10 +265,6 @@ define(['plugin/PluginConfig',
 
         sortedNodes = Utils.topologicalSort(nodeIds, adjacencyList);
 
-        if (sortedNodes === null) {
-            // TODO: Cyclic graph - invalid!
-        }
-
         return sortedNodes.map(function(e) { return virtualNodes[e]; });
     };
 

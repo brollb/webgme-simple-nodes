@@ -1,8 +1,21 @@
+/*globals define*/
 define([], function() {
+    'use strict';
+    
     var equals = function(a, b) {
         return a === b;
     };
 
+    /**
+     * This is a robust algorithm for topological sort. That is, if given
+     * an acyclic graph, it will return a topological ordering. If not, it
+     * will give an ordering anyway.
+     *
+     * @param {String[]} nodes - String array of node paths
+     * @param {Map<String, String[]>} al - Adjacency list of node paths to 
+     *  the paths of all incoming nodes
+     * @return {String[]} sortedNodes - String array of node paths
+     */
     var topologicalSort = function(nodes, al) {
         var sortedNodes = [],
             edgeCounts = {},
@@ -21,12 +34,11 @@ define([], function() {
             while (i-- && !nodeId) {
                 if (edgeCounts[nodes[i]] === 0) {
                     nodeId = nodes.splice(i,1)[0];
-                    hasCycle = false;
                 }
             }
 
-            if (nodeId === null) {  // has a cycle! no sort available
-                return null;
+            if (nodeId === null) {  // has a cycle! just give arbitrary ordering
+                return nodes;
             }
 
             // Add the node 

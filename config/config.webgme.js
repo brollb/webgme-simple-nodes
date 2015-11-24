@@ -12,8 +12,12 @@ config.plugin.basePaths.push('src/plugins');
 config.seedProjects.basePaths.push('src/seeds/ExampleModel');
 
 
+// Visualizer descriptors
+
 // Add requirejs paths
 
 
+
+config.mongo.uri = 'mongodb://127.0.0.1:27017/webgme_simple_nodes';
 validateConfig(config);
 module.exports = config;
