@@ -19,7 +19,7 @@ This library is composed of two objects: `TemplateCreator` and the `OutputGenera
 If you are using the `webgme-setup-tool`, you can add this to an existing WebGME app with:
 
 ```
-webgme add TemplateCreator brollb/webgme-simple-nodes
+webgme add plugin TemplateCreator brollb/webgme-simple-nodes
 ```
 
 ### Usage
