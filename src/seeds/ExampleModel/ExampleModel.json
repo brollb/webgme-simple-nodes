@@ -12,17 +12,25 @@
     "1265a34c-f7b7-a78e-172a-9e2518457728": "351180570",
     "15a04644-cf2b-d9ce-2382-09c8edb5a476": "403504861",
     "21fa2c5b-fa73-1b9d-105d-7d8f11f20487": "1886992701",
+    "242e1fdc-e27c-420b-a109-ba09922bc3a8": "355673676",
+    "251df971-1ec3-ce6a-b602-f9a594f8173e": "214971925",
     "2cd3212c-553d-5756-2267-0a496ad5285a": "134757158",
+    "315739e4-458b-f3a7-6ee3-fa92b53dd325": "81872022",
     "74014e22-fe86-1712-1bc2-ffb565684909": "2044855192",
     "8407b884-850a-190f-030c-9e0d786c71e3": "290845381",
     "8ee3a3ca-c41b-d2a9-f091-3e420e8b52db": "1074608737",
     "914ac4d7-865a-8cd3-59a0-697ee0cc7cad": "253167239",
     "9309dc64-336b-969c-6d2d-60c590af1fd1": "2093891330",
+    "9705738d-5e22-de66-8db9-b8adcf53fa78": "1414314923",
     "9ae3d1ad-90f2-adab-895a-d0732933df43": "638557623",
     "9c40b504-0ab4-0325-7ad8-d9adf821e010": "1972488995",
+    "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0": "2086071635",
+    "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e": "406542164",
+    "ad8d2fce-0e43-7ff1-e37a-3d9eec79c2f1": "1968053851",
     "ae50da57-cb56-1f05-ea17-e86a19f291ed": "1149037943",
     "b65a08aa-6737-6604-0a1d-628742ca09e7": "1053909257",
     "b8a9b55e-d531-32f3-9111-095295253676": "1776188411",
+    "badde229-9706-c6cc-5d34-7b096d82bbb5": "569589961",
     "bea26afd-5b28-389f-e766-616743eb8bc6": "585209973",
     "ca8044b7-c858-38b7-9fc0-341aab1f0fa7": "1231751706",
     "cd891e7b-e2ea-e929-f6cd-9faf4f1fc045": "1",
@@ -30,8 +38,10 @@
     "d46e90a1-659f-4c1c-77fd-d1a69a560ea1": "1020398431",
     "dd2c49a0-9f99-7dff-097a-91165e0fac5c": "682901384",
     "de613298-8a7e-040f-fe8c-a945dfad98e7": "224757424",
+    "e17cfb33-1ff2-2b18-1d1a-a90793032bca": "446659708",
     "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68": "1047840066",
     "e6ad9481-54e4-fad3-9004-3eb9b11d19b7": "598629383",
+    "eb178817-048f-34e3-cccb-8fc6236ba188": "1360484723",
     "fc34bc44-c29a-edf7-ffab-def1f7e4194d": "413436838"
   },
   "containment": {
@@ -44,6 +54,20 @@
       "de613298-8a7e-040f-fe8c-a945dfad98e7": {},
       "fc34bc44-c29a-edf7-ffab-def1f7e4194d": {}
     },
+    "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0": {
+      "242e1fdc-e27c-420b-a109-ba09922bc3a8": {},
+      "9705738d-5e22-de66-8db9-b8adcf53fa78": {
+        "e17cfb33-1ff2-2b18-1d1a-a90793032bca": {}
+      },
+      "ad8d2fce-0e43-7ff1-e37a-3d9eec79c2f1": {
+        "251df971-1ec3-ce6a-b602-f9a594f8173e": {}
+      },
+      "badde229-9706-c6cc-5d34-7b096d82bbb5": {
+        "315739e4-458b-f3a7-6ee3-fa92b53dd325": {}
+      },
+      "eb178817-048f-34e3-cccb-8fc6236ba188": {}
+    },
+    "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e": {},
     "ca8044b7-c858-38b7-9fc0-341aab1f0fa7": {},
     "cd891e7b-e2ea-e929-f6cd-9faf4f1fc045": {},
     "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68": {},
@@ -123,6 +147,16 @@
           },
           {
             "attributes": {},
+            "guid": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e",
+            "registry": {
+              "position": {
+                "x": 77,
+                "y": 323
+              }
+            }
+          },
+          {
+            "attributes": {},
             "guid": "ca8044b7-c858-38b7-9fc0-341aab1f0fa7",
             "registry": {
               "position": {
@@ -160,6 +194,16 @@
               "position": {
                 "x": 299,
                 "y": 105
+              }
+            }
+          },
+          {
+            "attributes": {},
+            "guid": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e",
+            "registry": {
+              "position": {
+                "x": 103,
+                "y": 322
               }
             }
           },
@@ -344,6 +388,42 @@
       "sets": {},
       "constraints": {}
     },
+    "242e1fdc-e27c-420b-a109-ba09922bc3a8": {
+      "attributes": {},
+      "base": "15a04644-cf2b-d9ce-2382-09c8edb5a476",
+      "meta": {},
+      "parent": "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0",
+      "pointers": {
+        "base": "15a04644-cf2b-d9ce-2382-09c8edb5a476",
+        "dst": "315739e4-458b-f3a7-6ee3-fa92b53dd325",
+        "src": "e17cfb33-1ff2-2b18-1d1a-a90793032bca"
+      },
+      "registry": {
+        "position": {
+          "x": 100,
+          "y": 100
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "251df971-1ec3-ce6a-b602-f9a594f8173e": {
+      "attributes": {},
+      "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e",
+      "meta": {},
+      "parent": "ad8d2fce-0e43-7ff1-e37a-3d9eec79c2f1",
+      "pointers": {
+        "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e"
+      },
+      "registry": {
+        "position": {
+          "x": 109,
+          "y": 207
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
     "2cd3212c-553d-5756-2267-0a496ad5285a": {
       "attributes": {
         "name": "Frank"
@@ -358,6 +438,23 @@
         "position": {
           "x": 67,
           "y": 394
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "315739e4-458b-f3a7-6ee3-fa92b53dd325": {
+      "attributes": {},
+      "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e",
+      "meta": {},
+      "parent": "badde229-9706-c6cc-5d34-7b096d82bbb5",
+      "pointers": {
+        "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e"
+      },
+      "registry": {
+        "position": {
+          "x": 234,
+          "y": 344
         }
       },
       "sets": {},
@@ -461,6 +558,25 @@
       "sets": {},
       "constraints": {}
     },
+    "9705738d-5e22-de66-8db9-b8adcf53fa78": {
+      "attributes": {
+        "name": "B"
+      },
+      "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
+      "meta": {},
+      "parent": "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0",
+      "pointers": {
+        "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68"
+      },
+      "registry": {
+        "position": {
+          "x": 414,
+          "y": 230
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
     "9ae3d1ad-90f2-adab-895a-d0732933df43": {
       "attributes": {},
       "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
@@ -497,6 +613,64 @@
         "position": {
           "x": 84,
           "y": 176
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0": {
+      "attributes": {
+        "name": "Ports"
+      },
+      "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
+      "meta": {},
+      "parent": "03d36072-9e09-7866-cb4e-d0a36ff825f6",
+      "pointers": {
+        "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68"
+      },
+      "registry": {
+        "position": {
+          "x": 465,
+          "y": 170
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e": {
+      "attributes": {
+        "name": "port"
+      },
+      "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
+      "meta": {},
+      "parent": "03d36072-9e09-7866-cb4e-d0a36ff825f6",
+      "pointers": {
+        "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68"
+      },
+      "registry": {
+        "isPort": true,
+        "position": {
+          "x": 77,
+          "y": 323
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "ad8d2fce-0e43-7ff1-e37a-3d9eec79c2f1": {
+      "attributes": {
+        "name": "A"
+      },
+      "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
+      "meta": {},
+      "parent": "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0",
+      "pointers": {
+        "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68"
+      },
+      "registry": {
+        "position": {
+          "x": 162,
+          "y": 218
         }
       },
       "sets": {},
@@ -554,6 +728,25 @@
         "position": {
           "x": 100,
           "y": 100
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "badde229-9706-c6cc-5d34-7b096d82bbb5": {
+      "attributes": {
+        "name": "C"
+      },
+      "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68",
+      "meta": {},
+      "parent": "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0",
+      "pointers": {
+        "base": "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68"
+      },
+      "registry": {
+        "position": {
+          "x": 644,
+          "y": 231
         }
       },
       "sets": {},
@@ -729,6 +922,23 @@
       "sets": {},
       "constraints": {}
     },
+    "e17cfb33-1ff2-2b18-1d1a-a90793032bca": {
+      "attributes": {},
+      "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e",
+      "meta": {},
+      "parent": "9705738d-5e22-de66-8db9-b8adcf53fa78",
+      "pointers": {
+        "base": "a4e448b4-a2b5-7bc6-7fd7-da6f58ddd90e"
+      },
+      "registry": {
+        "position": {
+          "x": 237,
+          "y": 262
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
     "e4a98b62-ef04-f210-a4a1-05c6cc5fcc68": {
       "attributes": {
         "name": "box"
@@ -774,6 +984,25 @@
         "position": {
           "x": 606,
           "y": 175
+        }
+      },
+      "sets": {},
+      "constraints": {}
+    },
+    "eb178817-048f-34e3-cccb-8fc6236ba188": {
+      "attributes": {},
+      "base": "15a04644-cf2b-d9ce-2382-09c8edb5a476",
+      "meta": {},
+      "parent": "9ca6bf4c-25c0-ed21-f490-b71c9950f2c0",
+      "pointers": {
+        "base": "15a04644-cf2b-d9ce-2382-09c8edb5a476",
+        "dst": "e17cfb33-1ff2-2b18-1d1a-a90793032bca",
+        "src": "251df971-1ec3-ce6a-b602-f9a594f8173e"
+      },
+      "registry": {
+        "position": {
+          "x": 100,
+          "y": 100
         }
       },
       "sets": {},
