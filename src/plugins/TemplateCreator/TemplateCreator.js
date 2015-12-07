@@ -116,6 +116,7 @@ define(['plugin/PluginConfig',
 
     TemplateCreator.prototype._runPlugin = function(callback) {
         this.nodes = {};
+        this._connections = [];
 
         // Change underscorejs tags to handlebar style
         _.templateSettings = {
@@ -147,23 +148,63 @@ define(['plugin/PluginConfig',
             current = [root],
             next,
             virtualNodes,
-            node;
+            nodeDict,
+            node,
+            i;
 
+        // Create all virtual nodes
         while (current.length) {
             next = [];
-            for (var i = current.length; i--;) {
+            for (i = current.length; i--;) {
                 node = current[i];
                 // Create node objects from attribute names
-                virtualNodes = this.createChildVirtualNodes(node[Constants.NODE_PATH]);
-
-                // Topological sort of the layers
-                node[Constants.CHILDREN] = this.getTopologicalOrdering(virtualNodes);
+                nodeDict = this.createChildVirtualNodes(node[Constants.NODE_PATH]);
+                node[Constants.CHILDREN] = TemplateCreator.values(nodeDict);
                 next = next.concat(node[Constants.CHILDREN]);
             }
             current = next;
         }
 
+        // Topological sort and connections
+        current = [root];
+        for (i = this._connections.length; i--;) {
+            this.mergeConnectionNode(this._connections[i]);
+        }
+
+        while (current.length) {
+            next = [];
+            for (i = current.length; i--;) {
+                // Update node objects given the connections
+                // Merge connection info with src/dst nodes
+                nodeDict = TemplateCreator.toPathDict(node[Constants.CHILDREN]);
+                node[Constants.CHILDREN] = this.getTopologicalOrdering(nodeDict);
+                next = next.concat(node[Constants.CHILDREN]);
+            }
+            current = next;
+        }
+
+
         return root;
+    };
+
+    TemplateCreator.values = function(dict) {
+        var keys = Object.keys(dict),
+            res = [];
+
+        for (var i = keys.length; i--;) {
+            res.push(dict[keys[i]]);
+        }
+        return res;
+    };
+
+    TemplateCreator.toPathDict = function(array) {
+        var res = {},
+            id;
+        for (var i = array.length; i--;) {
+            id = array[i][Constants.NODE_PATH];
+            res[id] = array[i];
+        }
+        return res;
     };
 
     /**
@@ -174,7 +215,6 @@ define(['plugin/PluginConfig',
     TemplateCreator.prototype.createChildVirtualNodes = function(nodeId) {
         var parentNode = this.getNode(nodeId),
             nodeIds = this.core.getChildrenPaths(parentNode),
-            conns = [],
             node,
             vnode,
             base,
@@ -189,13 +229,8 @@ define(['plugin/PluginConfig',
                 vnode[Constants.BASE] = this.createVirtualNode(base);
                 virtualNodes[nodeIds[i]] = vnode;
             } else {
-                conns.push(node);
+                this._connections.push(node);
             }
-        }
-
-        // Merge connection info with src/dst nodes
-        for (i = conns.length; i--;) {
-            this.mergeConnectionNode(conns[i], virtualNodes);
         }
 
         // Copy virtual nodes into this.nodes
@@ -221,9 +256,9 @@ define(['plugin/PluginConfig',
         return virtualNode;
     };
 
-    TemplateCreator.prototype.mergeConnectionNode = function(conn, nodes) {
-        var src = this._getPointerVirtualNode(conn, 'src', nodes),  // Get the virtual nodes
-            dst = this._getPointerVirtualNode(conn, 'dst', nodes);
+    TemplateCreator.prototype.mergeConnectionNode = function(conn) {
+        var src = this._getPointerVirtualNode(conn, 'src', this.nodes),  // Get the virtual nodes
+            dst = this._getPointerVirtualNode(conn, 'dst', this.nodes);
 
         // Set pointers to each other
         src[Constants.NEXT].push(dst);
