@@ -174,6 +174,7 @@ define(['plugin/PluginConfig',
         while (current.length) {
             next = [];
             for (i = current.length; i--;) {
+                node = current[i];
                 // Update node objects given the connections
                 // Merge connection info with src/dst nodes
                 nodeDict = TemplateCreator.toPathDict(node[Constants.CHILDREN]);
