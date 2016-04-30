@@ -4,11 +4,11 @@
 //
 // In this context, the JSON representations of the nodes are called virtual
 // nodes.
-define(['../templates/Constants'], function(Constants) {
+define(['./Constants'], function(Constants) {
 
     'use strict';
 
-    var OutputGenerator = function() {
+    var Generator = function() {
     };
 
     /**
@@ -18,7 +18,7 @@ define(['../templates/Constants'], function(Constants) {
      * @param {Array <VirtualNode>} nodeIds
      * @return {String} output
      */
-    OutputGenerator.prototype.createTemplateFromNodes = function(nodes) {
+    Generator.prototype.createTemplateFromNodes = function(nodes) {
         var len = nodes.length,
             template,
             snippet,
@@ -51,9 +51,9 @@ define(['../templates/Constants'], function(Constants) {
      * @param {Virtual Node} tree
      * @return {Object}
      */
-    OutputGenerator.prototype.createOutputFiles = function(tree) {
+    Generator.prototype.createOutputFiles = function(tree) {
         // Override this function in child classes
     };
 
-    return OutputGenerator;
+    return Generator;
 });

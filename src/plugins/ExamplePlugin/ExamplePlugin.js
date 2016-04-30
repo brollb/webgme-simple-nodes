@@ -4,7 +4,7 @@
 // This is the minimal working example of using this library. In practice you would
 // probably still have functions like 'getName' and 'getVersion', etc.
 define([
-    'TemplateCreator/TemplateCreator',
+    'SimpleNodes/SimpleNodes',
     './MyOutputGenerator',
     'text!./metadata.json'
 ], function (

@@ -1,9 +1,9 @@
 {
   "components": {
     "plugins": {
-      "TemplateCreator": {
-        "src": "src/plugins/TemplateCreator",
-        "test": "test/plugins/TemplateCreator"
+      "SimpleNodes": {
+        "src": "src/plugins/SimpleNodes",
+        "test": "test/plugins/SimpleNodes"
       },
       "ExamplePlugin": {
         "src": "src/plugins/ExamplePlugin",
