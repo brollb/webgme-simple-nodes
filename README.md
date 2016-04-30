@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/brollb/webgme-simple-nodes.svg?branch=master)](https://travis-ci.org/brollb/webgme-simple-nodes)
 # 'Simple Nodes' Plugin for the WebGME
-This plugin converts the WebGME nodes to simple JSON objects (where all children are topologically sorted) then calls a custom `OutputGenerator` which can be created to create custom text files using these simplified data types.
+This plugin converts the WebGME nodes to simple JSON objects (where all children are topologically sorted) then calls a custom `Generator` which can be created to create custom text files using these simplified data types.
 
 ## Overview
-This library is composed of two objects: `TemplateCreator` and the `OutputGenerator`. The `TemplateCreator` converts the WebGME nodes into JSON then passes them to an `OutputGenerator` which handles creating any necessary files (from any templates, etc).
+This library is composed of two objects: `SimpleNodes` and the `Generator`. The `SimpleNodes` converts the WebGME nodes into JSON then passes them to an `Generator` which handles creating any necessary files (from any templates, etc).
 
 ## Quick Start (for the example)
 + Clone this repo
@@ -16,42 +16,42 @@ This library is composed of two objects: `TemplateCreator` and the `OutputGenera
 
 ## Quick Start (for development)
 ### Installation
-If you are using the `webgme-setup-tool`, you can add this to an existing WebGME app with:
+If you are using the `webgme-cli`, you can add this to an existing WebGME app with:
 
 ```
-webgme add plugin TemplateCreator brollb/webgme-simple-nodes
+webgme add plugin SimpleNodes brollb/webgme-simple-nodes
 ```
 
 ### Usage
-The `TemplateCreator` can be extended in your plugin with
+The `SimpleNodes` can be extended in your plugin with
 
 ```
-define(['TemplateCreator/TemplateCreator',
-        ...], function(TemplateCreator,
+define(['SimpleNodes/SimpleNodes',
+        ...], function(SimpleNodes,
         ...) {
 
     'use strict';
     var MyPlugin = function() {
-        TemplateCreator.call(this);
+        SimpleNodes.call(this);
         ...
     };
 
-    _.extend(MyPlugin.prototype, TemplateCreator.prototype);
+    _.extend(MyPlugin.prototype, SimpleNodes.prototype);
 ```
 
-An `OutputGenerator` can be created similarly with 
+An `Generator` can be created similarly with 
 
 ```
-define(['TemplateCreator/outputs/OutputGenerator',
-        ...], function(OutputGenerator,
+define(['SimpleNodes/Generator',
+        ...], function(Generator,
                        ...) {
     'use strict';
 
-    var MyOutputGenerator = function() {
+    var MyGenerator = function() {
         this.template = /* define template info here */
     };
 
-    _.extend(MyOutputGenerator.prototype, OutputGenerator.prototype);
+    _.extend(MyGenerator.prototype, Generator.prototype);
 
 ```
 

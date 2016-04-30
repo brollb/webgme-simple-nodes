@@ -78,13 +78,13 @@ describe('ExamplePlugin', function () {
             expect(pluginResult.success).to.equal(true);
 
             // Get the results and check them
-            blobClient.getObject(codeHash, (err, obj) => {
+            blobClient.getObject(codeHash, function(err, obj) {
                 var zip = new jszip(),
                     actual;
 
                 zip.load(obj);
 
-                Object.keys(zip.files).forEach(filename => {
+                Object.keys(zip.files).forEach(function(filename) {
                     actual = zip.files[filename].asText();
                     expected = fs.readFileSync(path.join(RES_DIR, name, filename), 'utf8');
                     expect(actual).to.equal(expected);
@@ -101,9 +101,9 @@ describe('ExamplePlugin', function () {
     };
 
     describe('test cases', function() {
-        Object.keys(cases).forEach(name =>
-            it('should run plugin on ' + name, runTest.bind(this, name, cases[name]))
-        );
+        Object.keys(cases).forEach(function(name) {
+            it('should run plugin on ' + name, runTest.bind(null, name, cases[name]));
+        });
     });
 
 });
