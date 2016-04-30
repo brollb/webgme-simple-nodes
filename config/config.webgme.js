@@ -12,6 +12,9 @@ config.plugin.basePaths.push('src/plugins');
 config.seedProjects.basePaths.push('src/seeds/ExampleModel');
 
 
+
+
+
 // Visualizer descriptors
 
 // Add requirejs paths

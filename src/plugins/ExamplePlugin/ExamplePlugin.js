@@ -5,10 +5,13 @@
 // probably still have functions like 'getName' and 'getVersion', etc.
 define([
     'TemplateCreator/TemplateCreator',
-    './MyOutputGenerator'
+    './MyOutputGenerator',
+    'text!./metadata.json'
 ], function (
     SimpleNodes,
-    MyOutputGenerator) {
+    MyOutputGenerator,
+    metadata
+) {
     'use strict';
 
     /**
@@ -18,12 +21,14 @@ define([
      * @classdesc This class represents the plugin ExamplePlugin.
      * @constructor
      */
+    var pluginMetadata = JSON.parse(metadata);
     var ExamplePlugin = function () {
         // Call base class' constructor.
         SimpleNodes.call(this);
         // Set the generator to use. This needs to be done before the 
         // SimpleNodes.prototype.main function is invoked
         this.generator = new MyOutputGenerator();
+        this.pluginMetadata = pluginMetadata;
     };
 
     // Prototypal inheritance from PluginBase.
