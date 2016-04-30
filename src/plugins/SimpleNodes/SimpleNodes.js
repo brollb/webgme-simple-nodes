@@ -304,7 +304,7 @@ define([
     };
 
     // Thanks to Tamas for the next two functions
-    SimpleNodes.prototype._saveOutput = function(filename,filesBlob,callback){
+    SimpleNodes.prototype._saveOutput = function(filename, filesBlob, callback){
         var self = this,
             artifact = self.blobClient.createArtifact(filename),
             files = Object.keys(filesBlob),
@@ -334,8 +334,21 @@ define([
                 }
             };
 
-        for (var i = files.length; i--;) {
-            artifact.addFile(files[i],filesBlob[files[i]],onFileSave);
+        if (fileCount === 1) {
+            this.blobClient.putFile(files[0], filesBlob[files[0]], function(err, hash) {
+                if (err) {
+                    return callback(err);
+                }
+
+                self.logger.info('Artifacts saved as ' + files[0]);
+                self.result.addArtifact(hash);
+                self.result.setSuccess(true);
+                callback(null, self.result);
+            });
+        } else {
+            for (var i = files.length; i--;) {
+                artifact.addFile(files[i], filesBlob[files[i]], onFileSave);
+            }
         }
     };
 
