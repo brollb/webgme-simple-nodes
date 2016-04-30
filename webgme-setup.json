@@ -8,6 +8,10 @@
       "ExamplePlugin": {
         "src": "src/plugins/ExamplePlugin",
         "test": "test/plugins/ExamplePlugin"
+      },
+      "MinimalExample": {
+        "src": "src/plugins/MinimalExample",
+        "test": "test/plugins/MinimalExample"
       }
     },
     "seeds": {
