@@ -10,7 +10,7 @@ define([
     'plugin/PluginBase',
     'common/util/assert',
     'text!./metadata.json',
-    './templates/Constants',
+    './Constants',
     './utils'
 ],function(
     PluginBase,

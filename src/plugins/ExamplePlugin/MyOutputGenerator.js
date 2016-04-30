@@ -1,10 +1,14 @@
 /*globals define*/
 
-define(['TemplateCreator/outputs/OutputGenerator',
-        'underscore',
-        'TemplateCreator/templates/Constants'], function(OutputGenerator,
-                                                         _,
-                                                         Constants) {
+define([
+    'TemplateCreator/outputs/OutputGenerator',
+    'underscore',
+    'TemplateCreator/Constants'
+], function(
+    OutputGenerator,
+    _,
+    Constants
+) {
     var MyOutputGenerator = function() {
         // OutputGenerator provides a helper method called 'createTemplateFromNodes'
         // This method will take a list of nodes (generally the root node's children).
