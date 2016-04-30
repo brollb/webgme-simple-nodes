@@ -8,13 +8,11 @@
 
 define([
     'plugin/PluginBase',
-    'common/util/assert',
     'text!./metadata.json',
     './Constants',
     './utils'
 ],function(
     PluginBase,
-    assert,
     metadata,
     Constants,
     Utils
@@ -23,7 +21,7 @@ define([
     'use strict';
 
     var pluginMetadata = JSON.parse(metadata);
-    var TemplateCreator = function () {
+    var SimpleNodes = function () {
         // Call base class's constructor
         PluginBase.call(this);
         this.generator = null;
@@ -31,10 +29,10 @@ define([
     };
 
     // basic functions and setting for plugin inheritance
-    TemplateCreator.prototype = Object.create(PluginBase.prototype);
-    TemplateCreator.prototype.constructor = TemplateCreator;
+    SimpleNodes.prototype = Object.create(PluginBase.prototype);
+    SimpleNodes.prototype.constructor = SimpleNodes;
 
-    TemplateCreator.prototype._loadStartingNodes = function(callback){
+    SimpleNodes.prototype._loadStartingNodes = function(callback){
         var self = this;
         this._nodeCache = {};
 
@@ -52,7 +50,7 @@ define([
         });
     };
 
-    TemplateCreator.prototype._isTypeOf = function(node,type){
+    SimpleNodes.prototype._isTypeOf = function(node,type){
         //now we make the check based upon path
         if(node === undefined || node === null || type === undefined || type === null){
             return false;
@@ -67,17 +65,17 @@ define([
         return false;
     };
 
-    TemplateCreator.prototype._isConnection = function(node){
+    SimpleNodes.prototype._isConnection = function(node){
         var ptrs = this.core.getPointerNames(node);
         return ptrs.indexOf('src') !== -1 && ptrs.indexOf('dst') !== -1;
     };
 
-    TemplateCreator.prototype.getNode = function(nodePath){
+    SimpleNodes.prototype.getNode = function(nodePath){
         // we check only our node cache
         return this._nodeCache[nodePath];
     };
 
-    TemplateCreator.prototype.main = function (callback) {
+    SimpleNodes.prototype.main = function (callback) {
         var self = this;
 
         // If activeNode is null, we won't be able to run 
@@ -115,7 +113,7 @@ define([
         });
     };
 
-    TemplateCreator.prototype._runPlugin = function(callback) {
+    SimpleNodes.prototype._runPlugin = function(callback) {
         this.nodes = {};
         this._connections = [];
 
@@ -144,7 +142,7 @@ define([
      * @param {WebGME Node} rootNode
      * @return {VirtualNode} root
      */
-    TemplateCreator.prototype.loadVirtualTree = function(rootNode) {
+    SimpleNodes.prototype.loadVirtualTree = function(rootNode) {
         var root = this.createVirtualNode(rootNode),
             current = [root],
             next,
@@ -160,7 +158,7 @@ define([
                 node = current[i];
                 // Create node objects from attribute names
                 nodeDict = this.createChildVirtualNodes(node[Constants.NODE_PATH]);
-                node[Constants.CHILDREN] = TemplateCreator.values(nodeDict);
+                node[Constants.CHILDREN] = SimpleNodes.values(nodeDict);
                 next = next.concat(node[Constants.CHILDREN]);
             }
             current = next;
@@ -178,7 +176,7 @@ define([
                 node = current[i];
                 // Update node objects given the connections
                 // Merge connection info with src/dst nodes
-                nodeDict = TemplateCreator.toPathDict(node[Constants.CHILDREN]);
+                nodeDict = SimpleNodes.toPathDict(node[Constants.CHILDREN]);
                 node[Constants.CHILDREN] = this.getTopologicalOrdering(nodeDict);
                 next = next.concat(node[Constants.CHILDREN]);
             }
@@ -189,7 +187,7 @@ define([
         return root;
     };
 
-    TemplateCreator.values = function(dict) {
+    SimpleNodes.values = function(dict) {
         var keys = Object.keys(dict),
             res = [];
 
@@ -199,7 +197,7 @@ define([
         return res;
     };
 
-    TemplateCreator.toPathDict = function(array) {
+    SimpleNodes.toPathDict = function(array) {
         var res = {},
             id;
         for (var i = array.length; i--;) {
@@ -214,7 +212,7 @@ define([
      *
      * @return {Dictionary<Node>}
      */
-    TemplateCreator.prototype.createChildVirtualNodes = function(nodeId) {
+    SimpleNodes.prototype.createChildVirtualNodes = function(nodeId) {
         var parentNode = this.getNode(nodeId),
             nodeIds = this.core.getChildrenPaths(parentNode),
             node,
@@ -241,7 +239,7 @@ define([
         return virtualNodes;
     };
 
-    TemplateCreator.prototype.createVirtualNode = function(node) {
+    SimpleNodes.prototype.createVirtualNode = function(node) {
         var id = this.core.getPath(node),
             attrNames = this.core.getAttributeNames(node),
             virtualNode = {};
@@ -258,7 +256,7 @@ define([
         return virtualNode;
     };
 
-    TemplateCreator.prototype.mergeConnectionNode = function(conn) {
+    SimpleNodes.prototype.mergeConnectionNode = function(conn) {
         var src = this._getPointerVirtualNode(conn, 'src', this.nodes),  // Get the virtual nodes
             dst = this._getPointerVirtualNode(conn, 'dst', this.nodes);
 
@@ -267,13 +265,13 @@ define([
         dst[Constants.PREV].push(src);
     };
 
-    TemplateCreator.prototype._verifyExists = function(object, key, defaultValue) {
+    SimpleNodes.prototype._verifyExists = function(object, key, defaultValue) {
         if (object[key] === undefined) {
             object[key] = defaultValue;
         }
     };
 
-    TemplateCreator.prototype._getPointerVirtualNode = function(node, ptr,nodes) {
+    SimpleNodes.prototype._getPointerVirtualNode = function(node, ptr,nodes) {
         var targetId = this.core.getPointerPath(node, ptr);
 
         return nodes[targetId];
@@ -285,7 +283,7 @@ define([
      * @param {Dictionary} nodeMap
      * @return {Array<Node>} sortedNodes
      */
-    TemplateCreator.prototype.getTopologicalOrdering = function(virtualNodes) {
+    SimpleNodes.prototype.getTopologicalOrdering = function(virtualNodes) {
         var nodeIds,
             adjacencyList = {},
             sortedNodes;
@@ -306,7 +304,7 @@ define([
     };
 
     // Thanks to Tamas for the next two functions
-    TemplateCreator.prototype._saveOutput = function(filename,filesBlob,callback){
+    SimpleNodes.prototype._saveOutput = function(filename,filesBlob,callback){
         var self = this,
             artifact = self.blobClient.createArtifact(filename),
             files = Object.keys(filesBlob),
@@ -341,11 +339,11 @@ define([
         }
     };
 
-    TemplateCreator.prototype._errorMessages = function(message){
+    SimpleNodes.prototype._errorMessages = function(message){
         //TODO the erroneous node should be send to the function
         var self = this;
         self.createMessage(self.activeNode,message);
     };
 
-    return TemplateCreator;
+    return SimpleNodes;
 });

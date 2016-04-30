@@ -1,15 +1,15 @@
 /*globals define*/
 
 define([
-    'TemplateCreator/outputs/OutputGenerator',
+    'SimpleNodes/Generator',
     'underscore',
-    'TemplateCreator/Constants'
+    'SimpleNodes/Constants'
 ], function(
     OutputGenerator,
     _,
     Constants
 ) {
-    var MyOutputGenerator = function() {
+    var MyGenerator = function() {
         // OutputGenerator provides a helper method called 'createTemplateFromNodes'
         // This method will take a list of nodes (generally the root node's children).
         // For each of these nodes (which are already topologically sorted), it
@@ -25,7 +25,7 @@ define([
         };
     };
 
-    _.extend(MyOutputGenerator.prototype, OutputGenerator.prototype);
+    _.extend(MyGenerator.prototype, OutputGenerator.prototype);
 
     /**
      * Create the output files stored in a JS Object where the 
@@ -34,7 +34,7 @@ define([
      * @param {Virtual Node} root
      * @return {Object}
      */
-    MyOutputGenerator.prototype.createOutputFiles = function(root) {
+    MyGenerator.prototype.createOutputFiles = function(root) {
         var outputFiles = {};
 
         // Here you can use the inherited 'createTemplateFromNodes'
@@ -46,5 +46,5 @@ define([
         return outputFiles;
     };
 
-    return MyOutputGenerator;
+    return MyGenerator;
 });
