@@ -4,12 +4,18 @@
  */
 
 'use strict';
-var testFixture = require('../../globals');
+var testFixture = require('../../globals'),
+    path = testFixture.path,
+    jszip = require('jszip'),
+    fs = require('fs'),
+    RES_DIR = path.join(__dirname, '..', '..', 'res');
 
 describe('ExamplePlugin', function () {
     var gmeConfig = testFixture.getGmeConfig(),
         expect = testFixture.expect,
-        logger = testFixture.logger.fork('NewPlugin'),
+        logger = testFixture.logger.fork('ExamplePlugin'),
+        BlobClient = require('webgme/src/server/middleware/blob/BlobClientWithFSBackend'),
+        blobClient = new BlobClient(gmeConfig, logger),
         PluginCliManager = testFixture.WebGME.PluginCliManager,
         projectName = 'testProject',
         pluginName = 'ExamplePlugin',
@@ -28,7 +34,7 @@ describe('ExamplePlugin', function () {
             })
             .then(function () {
                 var importParam = {
-                    projectSeed: testFixture.path.join(testFixture.SEED_DIR, 'ExampleModel.json'),
+                    projectSeed: path.join(testFixture.SEED_DIR, 'ExampleModel.json'),
                     projectName: projectName,
                     branchName: 'master',
                     logger: logger,
@@ -53,7 +59,7 @@ describe('ExamplePlugin', function () {
             .nodeify(done);
     });
 
-    it('should run plugin without failure', function (done) {
+    var runTest = function(name, nodeId, done) {
         var manager = new PluginCliManager(null, logger, gmeConfig),
             pluginConfig = {
             },
@@ -61,58 +67,43 @@ describe('ExamplePlugin', function () {
                 project: project,
                 commitHash: commitHash,
                 branchName: 'test',
-                activeNode: '/598629383',
-            };
-
-        manager.executePlugin(pluginName, pluginConfig, context, function (err, pluginResult) {
-            expect(err).to.equal(null);
-            expect(typeof pluginResult).to.equal('object');
-            expect(pluginResult.success).to.equal(true);
-
-            // TODO: Get the results and check them
-            done();
-        });
-    });
-
-    it('should run plugin on cyclic graphs', function (done) {
-        var manager = new PluginCliManager(null, logger, gmeConfig),
-            pluginConfig = {
+                activeNode: nodeId,
             },
-            context = {
-                project: project,
-                commitHash: commitHash,
-                branchName: 'test',
-                activeNode: '/253167239',
-            };
+            expected;
 
         manager.executePlugin(pluginName, pluginConfig, context, function (err, pluginResult) {
+            var codeHash = pluginResult.artifacts[0];
             expect(err).to.equal(null);
             expect(typeof pluginResult).to.equal('object');
             expect(pluginResult.success).to.equal(true);
 
-            // TODO: Get the results and check them
-            done();
+            // Get the results and check them
+            blobClient.getObject(codeHash, (err, obj) => {
+                var zip = new jszip(),
+                    actual;
+
+                zip.load(obj);
+
+                Object.keys(zip.files).forEach(filename => {
+                    actual = zip.files[filename].asText();
+                    expected = fs.readFileSync(path.join(RES_DIR, name, filename), 'utf8');
+                    expect(actual).to.equal(expected);
+                });
+                done();
+            });
         });
+    };
+
+    var cases = {
+        basic: '/598629383',
+        cyclic: '/253167239',
+        ports: '/2086071635'
+    };
+
+    describe('test cases', function() {
+        Object.keys(cases).forEach(name =>
+            it('should run plugin on ' + name, runTest.bind(this, name, cases[name]))
+        );
     });
 
-    it('should run plugin with ports', function (done) {
-        var manager = new PluginCliManager(null, logger, gmeConfig),
-            pluginConfig = {
-            },
-            context = {
-                project: project,
-                commitHash: commitHash,
-                branchName: 'test',
-                activeNode: '/2086071635',
-            };
-
-        manager.executePlugin(pluginName, pluginConfig, context, function (err, pluginResult) {
-            expect(err).to.equal(null);
-            expect(typeof pluginResult).to.equal('object');
-            expect(pluginResult.success).to.equal(true);
-
-            // TODO: Get the results and check them
-            done();
-        });
-    });
 });

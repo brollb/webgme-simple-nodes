@@ -1,0 +1,3 @@
+There is a box with the name "C" with 6 outgoing edges
+There is a box with the name "B" with 6 outgoing edges
+There is a box with the name "A" with 6 outgoing edges

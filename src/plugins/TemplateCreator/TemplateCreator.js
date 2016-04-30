@@ -6,32 +6,33 @@
  * generators.
  */
 
-define(['plugin/PluginConfig',
-        'plugin/PluginBase',
-        'common/util/assert',
-        './templates/Constants',
-        './utils',
-        'common/util/guid'],function(PluginConfig,
-                              PluginBase,
-                              assert,
-                              Constants,
-                              Utils,
-                              genGuid){
+define([
+    'plugin/PluginBase',
+    'common/util/assert',
+    'text!./metadata.json',
+    './templates/Constants',
+    './utils'
+],function(
+    PluginBase,
+    assert,
+    metadata,
+    Constants,
+    Utils
+){
 
     'use strict';
 
+    var pluginMetadata = JSON.parse(metadata);
     var TemplateCreator = function () {
         // Call base class's constructor
         PluginBase.call(this);
         this.generator = null;
+        this.pluginMetadata = pluginMetadata;
     };
 
     // basic functions and setting for plugin inheritance
     TemplateCreator.prototype = Object.create(PluginBase.prototype);
     TemplateCreator.prototype.constructor = TemplateCreator;
-    TemplateCreator.prototype.getName = function () {
-        return "Template Creator";
-    };
 
     TemplateCreator.prototype._loadStartingNodes = function(callback){
         var self = this;
