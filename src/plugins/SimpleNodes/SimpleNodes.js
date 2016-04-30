@@ -24,7 +24,7 @@ define([
     var SimpleNodes = function () {
         // Call base class's constructor
         PluginBase.call(this);
-        this.generator = null;
+        this.generator = this.generator || this;
         this.pluginMetadata = pluginMetadata;
     };
 
