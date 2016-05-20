@@ -34,7 +34,7 @@ describe('ExamplePlugin', function () {
             })
             .then(function () {
                 var importParam = {
-                    projectSeed: path.join(testFixture.SEED_DIR, 'ExampleModel.webgmex'),
+                    projectSeed: path.join(testFixture.MY_SEED_DIR, 'ExampleModel.webgmex'),
                     projectName: projectName,
                     branchName: 'master',
                     logger: logger,
