@@ -4,7 +4,7 @@
     "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha --recursive test"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "peerDependencies": {
     "webgme": "^2.0.0"
   },
