@@ -1,4 +1,4 @@
-/*globals define,_*/
+/*globals define*/
 /*
  * @author brollb
  *
@@ -8,11 +8,13 @@
 
 define([
     'plugin/PluginBase',
+    'underscore',
     'text!./metadata.json',
     './Constants',
     './utils'
 ],function(
     PluginBase,
+    _,
     metadata,
     Constants,
     Utils

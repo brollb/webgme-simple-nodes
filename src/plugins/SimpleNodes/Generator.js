@@ -1,10 +1,16 @@
-/*globals _,define*/
+/*globals define*/
 // This object uses the JSON representations of the WebGME nodes and the 
 // given templates provided in ./templates to generate the desired files.
 //
 // In this context, the JSON representations of the nodes are called virtual
 // nodes.
-define(['./Constants'], function(Constants) {
+define([
+    'underscore',
+    './Constants'
+], function(
+    _,
+    Constants
+) {
 
     'use strict';
 
