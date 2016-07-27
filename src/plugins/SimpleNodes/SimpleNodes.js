@@ -103,7 +103,7 @@ define([
                 callback(err,self.result);
             } else {
                 // executing the plugin
-                self.logger.info("Finished loading children");
+                self.logger.info('Finished loading children');
 
                 // Bad hack FIXME
                 if (self.result.messages.length) {
@@ -122,7 +122,7 @@ define([
         // Change underscorejs tags to handlebar style
         _.templateSettings = {
             interpolate: /\{\{=(.+?)\}\}/g,
-            evaluate: /\{\{(.+?)\}\}/g,
+            evaluate: /\{\{(.+?)\}\}/g
         };
 
         // Load virtual tree
@@ -148,7 +148,6 @@ define([
         var root = this.createVirtualNode(rootNode),
             current = [root],
             next,
-            virtualNodes,
             nodeDict,
             node,
             i;

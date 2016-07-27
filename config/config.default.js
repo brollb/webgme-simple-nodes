@@ -10,7 +10,7 @@ var config = require('./config.webgme'),
 config.seedProjects.defaultProject = 'ExampleModel';
 config.plugin.allowServerExecution = true;
 config.requirejsPaths = {
-  'SimpleNodes': 'src/plugins/SimpleNodes'
+    'SimpleNodes': 'src/plugins/SimpleNodes'
 };
 
 validateConfig(config);

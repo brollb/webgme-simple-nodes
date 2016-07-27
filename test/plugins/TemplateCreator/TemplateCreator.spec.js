@@ -62,7 +62,7 @@ describe.skip('TemplateCreator', function () {
                 project: project,
                 commitHash: commitHash,
                 branchName: 'test',
-                activeNode: '/960660211',
+                activeNode: '/960660211'
             };
 
         manager.executePlugin(pluginName, pluginConfig, context, function (err, pluginResult) {
