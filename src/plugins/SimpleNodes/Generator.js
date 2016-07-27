@@ -24,8 +24,7 @@ define(['./Constants'], function(Constants) {
             snippet,
             baseName,
             output = '',
-            node,
-            base;
+            node;
 
         // For each node, get the snippet from the base name, populate
         // it and add it to the template
@@ -51,7 +50,7 @@ define(['./Constants'], function(Constants) {
      * @param {Virtual Node} tree
      * @return {Object}
      */
-    Generator.prototype.createOutputFiles = function(tree) {
+    Generator.prototype.createOutputFiles = function(/*tree*/) {
         // Override this function in child classes
     };
 

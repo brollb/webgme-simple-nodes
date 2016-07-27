@@ -1,5 +1,4 @@
 // This is used by the test/plugins tests
-/*globals requireJS*/
 /*jshint node:true*/
 /**
  * @author pmeijer / https://github.com/pmeijer

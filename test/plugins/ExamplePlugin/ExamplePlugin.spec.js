@@ -67,7 +67,7 @@ describe('ExamplePlugin', function () {
                 project: project,
                 commitHash: commitHash,
                 branchName: 'test',
-                activeNode: nodeId,
+                activeNode: nodeId
             },
             expected;
 

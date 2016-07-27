@@ -9,7 +9,7 @@ var config = require('./config.webgme'),
 
 config.seedProjects.defaultProject = 'ExampleModel';
 config.requirejsPaths = {
-  'SimpleNodes': 'src/plugins/SimpleNodes'
+    'SimpleNodes': 'src/plugins/SimpleNodes'
 };
 
 validateConfig(config);
