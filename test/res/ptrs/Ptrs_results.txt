@@ -1,0 +1,10 @@
+ptrBox: ptrBox
+  Is my attr correct? I should exist!
+  Do I have a pointer? true
+  What is my pointer's name? attrTgt
+  
+ptrBox: target
+  Is my attr correct? 
+  Do I have a pointer? false
+  
+  
