@@ -8,12 +8,14 @@
 
 define([
     'plugin/PluginBase',
+    'q',
     'underscore',
     'text!./metadata.json',
     './Constants',
     './utils'
 ],function(
     PluginBase,
+    Q,
     _,
     metadata,
     Constants,
@@ -28,6 +30,7 @@ define([
         PluginBase.call(this);
         this.generator = this.generator || this;
         this.pluginMetadata = pluginMetadata;
+        this.vNodeCache = {};
     };
 
     // basic functions and setting for plugin inheritance
@@ -105,11 +108,6 @@ define([
                 // executing the plugin
                 self.logger.info('Finished loading children');
 
-                // Bad hack FIXME
-                if (self.result.messages.length) {
-                    self.result.messages.pop();
-                }
-                // REMOVE the above thing
                 self._runPlugin(callback);
             }
         });
@@ -135,16 +133,18 @@ define([
         }
 
         // Load virtual tree
-        var tree = this.loadVirtualTree(this.activeNode);
+        this.loadVirtualTree(this.activeNode).then(tree => {
 
-        // Retrieve & populate templates in topological order
-        var output = this.generator.createOutputFiles(tree);
+            // Retrieve & populate templates in topological order
+            var output = this.generator.createOutputFiles(tree);
 
-        // Save file
-        var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
+            // Save file
+            var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
 
-        this._saveOutput(name, output, callback);
-        _.templateSettings = oldSettings;
+            this._saveOutput(name, output, callback);
+            _.templateSettings = oldSettings;
+        })
+        .fail(err => callback(`Generating results failed: ${err}`));
 
     };
 
@@ -155,32 +155,65 @@ define([
      * @return {VirtualNode} root
      */
     SimpleNodes.prototype.loadVirtualTree = function(rootNode) {
-        var root = this.createVirtualNode(rootNode),
-            current = [root],
-            next,
+        return this.loadVirtualNodes(rootNode)
+            .then(root => this.sortVirtualNodes(root));
+    };
+
+    SimpleNodes.prototype.loadTreeBFS = function(current) {
+        var node,
             nodeDict,
+            next,
+            vchildren;
+
+        vchildren = current.map(
+            node => this.createChildVirtualNodes(node[Constants.NODE_PATH])
+        );
+
+        this.logger.debug(`Loading ${current.length} nodes`);
+        return Q.all(vchildren)
+            .then(nodeDicts => {
+                next = [];
+                for (var i = current.length; i--;) {
+                    node = current[i];
+                    nodeDict = nodeDicts[i];
+                    node[Constants.CHILDREN] = SimpleNodes.values(nodeDict);
+                    next = next.concat(node[Constants.CHILDREN]);
+                }
+                if (next.length) {
+                    return this.loadTreeBFS(next);
+                } else {
+                    return true;
+                }
+            });
+    };
+
+    SimpleNodes.prototype.loadVirtualNodes = function(rootNode) {
+        var root;
+        this.logger.debug(`Loading virtual nodes`);
+        return this.createVirtualNode(rootNode)
+            .then(_root => {
+                root = _root;
+                return this.loadTreeBFS([root]);
+            })
+            .then(() => root)
+            .fail(err => this.logger.error(`Could not load virtual nodes: ${err}`));
+    };
+
+    SimpleNodes.prototype.sortVirtualNodes = function(root) {
+        var current,
+            next,
             node,
+            nodeDict,
             i;
 
-        // Create all virtual nodes
-        while (current.length) {
-            next = [];
-            for (i = current.length; i--;) {
-                node = current[i];
-                // Create node objects from attribute names
-                nodeDict = this.createChildVirtualNodes(node[Constants.NODE_PATH]);
-                node[Constants.CHILDREN] = SimpleNodes.values(nodeDict);
-                next = next.concat(node[Constants.CHILDREN]);
-            }
-            current = next;
-        }
-
         // Topological sort and connections
-        current = [root];
+        this.logger.debug('Adding connection info');
         for (i = this._connections.length; i--;) {
             this.mergeConnectionNode(this._connections[i]);
         }
 
+        this.logger.debug('Topologically sorting nodes');
+        current = [root];
         while (current.length) {
             next = [];
             for (i = current.length; i--;) {
@@ -193,8 +226,6 @@ define([
             }
             current = next;
         }
-
-
         return root;
     };
 
@@ -228,43 +259,112 @@ define([
             nodeIds = this.core.getChildrenPaths(parentNode),
             node,
             vnode,
-            base,
             virtualNodes = {},
+            nodes = [],
+            nonConnIds = [],
             i;
 
         for (i = nodeIds.length; i--;) {
             node = this.getNode(nodeIds[i]);
             if (!this._isConnection(node)) {
-                vnode = this.createVirtualNode(node);
-                base = this.core.getBase(node);
-                vnode[Constants.BASE] = this.createVirtualNode(base);
-                virtualNodes[nodeIds[i]] = vnode;
+                nodes.push(node);
+                nonConnIds.push(nodeIds[i]);
             } else {
                 this._connections.push(node);
             }
         }
 
-        // Copy virtual nodes into this.nodes
-        _.extend(this.nodes, virtualNodes);
+        return Q.all(nodes.map(node => this.createVirtualNode(node)))
+            .then(vnodes => {
 
-        return virtualNodes;
+                // Add nodes to the result dictionary
+                for (i = vnodes.length; i--;) {
+                    virtualNodes[vnodes[i][Constants.NODE_PATH]] = vnodes[i];
+                }
+
+                // Create virtual nodes from the base
+                return Q.all(nodes.map(node => {
+                    var base = this.core.getBase(node);
+                    return this.createVirtualNode(base);
+                }));
+            })
+            .then(bases => {
+                for (i = nonConnIds.length; i--;) {
+                    vnode = virtualNodes[nonConnIds[i]];
+                    vnode[Constants.BASE] = bases[i];
+                }
+
+                // Copy virtual nodes into this.nodes
+                _.extend(this.nodes, virtualNodes);
+
+                return virtualNodes;
+            });
     };
 
     SimpleNodes.prototype.createVirtualNode = function(node) {
         var id = this.core.getPath(node),
             attrNames = this.core.getAttributeNames(node),
-            virtualNode = {};
+            ptrNames = this.core.getPointerNames(node),
+            tgts,
+            remainingPtrs = [],
+            virtualNode = {},
+            name = this.core.getAttribute(node, 'name'),
+            i;
 
-        for (var i = attrNames.length; i--;) {
-            virtualNode[attrNames[i]] = this.core.getAttribute(node, attrNames[i]);
+        this.logger.debug(`Creating virtual node for ${name} (${id})`);
+        if (this.vNodeCache[id]) {
+            return this.vNodeCache[id];
         }
 
-        // Initialize source and destination stuff
-        virtualNode[Constants.NEXT] = [];
-        virtualNode[Constants.PREV] = [];
-        virtualNode[Constants.NODE_PATH] = id;
+        // Add virtualNode to cache
+        this.vNodeCache[id] = virtualNode;
 
-        return virtualNode;
+        // Get pointer values
+        tgts = ptrNames.map(ptr => this.core.getPointerPath(node, ptr))
+            .map(id => id && this.core.loadByPath(this.rootNode, id));
+
+        return Q.all(tgts).then(tgtNodes => {
+            var vnodesToCreate = [],
+                vtgt,  // virtual target node
+                tgtId;
+
+            // try to set pointer value to the cached virt node (or create one)
+            for (i = ptrNames.length; i--;) {
+                vtgt = null;
+
+                if (tgtNodes[i]) {
+                    tgtId = this.core.getPath(tgtNodes[i]);
+                    if (this.vNodeCache[tgtId]) {
+                        vtgt = this.vNodeCache[tgtId];
+                    } else {
+                        vnodesToCreate.push(tgtNodes[i]);
+                        remainingPtrs.push(ptrNames[i]);
+                    }
+                }
+                virtualNode[ptrNames[i]] = vtgt;
+            }
+
+            return Q.all(vnodesToCreate.map(node => this.createVirtualNode(node)));
+        })
+        .then(vtgts => {
+            // Set the ptr attr to point to the given vtgts
+            for (i = remainingPtrs.length; i--;) {
+                virtualNode[remainingPtrs[i]] = vtgts[i];
+            }
+
+            // Add the attributes
+            for (i = attrNames.length; i--;) {
+                virtualNode[attrNames[i]] = this.core.getAttribute(node, attrNames[i]);
+            }
+
+            // Initialize source and destination stuff
+            virtualNode[Constants.NEXT] = [];
+            virtualNode[Constants.PREV] = [];
+            virtualNode[Constants.NODE_PATH] = id;
+
+            return virtualNode;
+        })
+        .fail(err => this.logger.error(`Failed creating virtual node from ${name} (${id}): ${err}`));
     };
 
     SimpleNodes.prototype.mergeConnectionNode = function(conn) {

@@ -21,7 +21,14 @@ define([
         this.template = {
             box: 'There is a box with the name "{{=name}}" with {{='+
                 Constants.NEXT.length+'}} outgoing edges\n',
-            thing: 'My "size" attribute is {{= size }} ({{= name }})\n'
+            thing: 'My "size" attribute is {{= size }} ({{= name }})\n',
+            ptrBox: [
+                'ptrBox: {{= name}}',
+                'Is my attr correct? {{= attr }}',
+                'Do I have a pointer? {{= !!ptr }}',
+                '{{ if (!!ptr) { }}What is my pointer\'s name? {{= ptr && ptr.name }}{{ } }}',
+                '\n'
+            ].join('\n  ')
         };
     };
 
