@@ -113,15 +113,24 @@ define([
         });
     };
 
-    SimpleNodes.prototype._runPlugin = function(callback) {
-        this.nodes = {};
-        this._connections = [];
-
+    SimpleNodes.prototype.getTemplateSettings = function () {
         // Change underscorejs tags to handlebar style
-        _.templateSettings = {
+        return {
             interpolate: /\{\{=(.+?)\}\}/g,
             evaluate: /\{\{(.+?)\}\}/g
         };
+    };
+
+    SimpleNodes.prototype._runPlugin = function(callback) {
+        var settings = this.getTemplateSettings(),
+            oldSettings = _.templateSettings;
+
+        this.nodes = {};
+        this._connections = [];
+
+        if (settings) {
+            _.templateSettings = settings;
+        }
 
         // Load virtual tree
         this.loadVirtualTree(this.activeNode).then(tree => {
@@ -133,6 +142,7 @@ define([
             var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
 
             this._saveOutput(name, output, callback);
+            _.templateSettings = oldSettings;
         })
         .fail(err => callback(`Generating results failed: ${err}`));
 
