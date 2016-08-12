@@ -97,6 +97,7 @@ describe('ExamplePlugin', function () {
     var cases = {
         basic: '/598629383',
         cyclic: '/253167239',
+        ptrs: '/a',
         ports: '/2086071635'
     };
 

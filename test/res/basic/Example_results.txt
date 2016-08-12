@@ -1,6 +1,6 @@
 There is a box with the name "Joe" with 6 outgoing edges
-There is a box with the name "Tim" with 6 outgoing edges
 There is a box with the name "Alvin" with 6 outgoing edges
+There is a box with the name "Tim" with 6 outgoing edges
 My "size" attribute is 200 (thing1)
 There is a box with the name "Steve" with 6 outgoing edges
 My "size" attribute is 100 (thing2)
