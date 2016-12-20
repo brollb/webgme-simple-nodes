@@ -170,6 +170,7 @@ define([
             next,
             vchildren;
 
+        console.log('----- 1 -----');
         vchildren = current.map(
             node => this.createChildVirtualNodes(node[Constants.NODE_PATH])
         );
@@ -279,6 +280,7 @@ define([
             }
         }
 
+        console.log('----- 2 -----');
         return Q.all(nodes.map(node => this.createVirtualNode(node)))
             .then(vnodes => {
 
@@ -288,6 +290,7 @@ define([
                 }
 
                 // Create virtual nodes from the base
+        console.log('----- 3 -----');
                 return Q.all(nodes.map(node => {
                     var base = this.core.getBase(node);
                     return this.createVirtualNode(base);
@@ -325,6 +328,7 @@ define([
         this.vNodeCache[id] = virtualNode;
 
         // Get pointer values
+        console.log('----- 4 -----');
         tgts = ptrNames.map(ptr => this.core.getPointerPath(node, ptr))
             .map(id => id && this.core.loadByPath(this.rootNode, id));
 
@@ -349,6 +353,7 @@ define([
                 virtualNode[ptrNames[i]] = vtgt;
             }
 
+        console.log('----- 5 -----');
             return Q.all(vnodesToCreate.map(node => this.createVirtualNode(node)));
         })
         .then(vtgts => {
@@ -408,6 +413,7 @@ define([
 
         // Create the adjacency list
         nodeIds.forEach(function(id) {
+        console.log('----- 5 -----');
             adjacencyList[id] = virtualNodes[id][Constants.NEXT]
                 .map(function(node) {
                     return node[Constants.NODE_PATH];
@@ -416,6 +422,7 @@ define([
 
         sortedNodes = Utils.topologicalSort(nodeIds, adjacencyList);
 
+        console.log('----- 6 -----');
         return sortedNodes.map(function(e) { return virtualNodes[e]; });
     };
 
