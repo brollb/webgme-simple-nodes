@@ -141,8 +141,13 @@ define([
             // Save file
             var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
 
-            this._saveOutput(name, output, callback);
             _.templateSettings = oldSettings;
+
+            if (output) {
+                this._saveOutput(name, output, callback);
+            } else {
+                callback(null, this.result);
+            }
         })
         .fail(err => callback(`Generating results failed: ${err}`));
 
