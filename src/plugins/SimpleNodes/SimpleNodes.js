@@ -92,8 +92,11 @@ define([
         }
 
         if(!self.activeNode) {
-            self._errorMessages(self.activeNode, 'Current node is null - cannot genrate template');
-            return callback('Current node is null');
+            self._errorMessages(self.activeNode, 'Current node is null - cannot generate template');
+            var err = 'Current node is null';
+            self.logger.error(err);
+            self.result.success = false;
+            return callback(err, self.result);
         }
 
         self.logger.info('Running '+this.getName());
