@@ -1,10 +1,20 @@
 {
   "name": "webgme-simple-nodes",
+  "description": "A WebGME plugin simplifying arbitrary code generation from models",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/brollb/webgme-simple-nodes.git"
+  },
+  "author": {
+      "name": "Brian Broll",
+      "email": "brian.broll@gmail.com"
+  },
   "scripts": {
     "start": "node app.js",
     "test": "node ./node_modules/mocha/bin/mocha --recursive test"
   },
-  "version": "2.1.0",
+  "keywords": ["webgme", "webgme-component"],
+  "version": "2.1.1",
   "peerDependencies": {
     "webgme": "^2.0.0"
   },
