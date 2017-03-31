@@ -81,11 +81,12 @@ define([
     };
 
     SimpleNodes.prototype.main = function (callback) {
-        var self = this;
+        var self = this,
+            err;
 
         // If activeNode is null, we won't be able to run 
         if(!self.generator) {
-            var err = 'Generator has not been set!';
+            err = 'Generator has not been set!';
             self.logger.error(err);
             self.result.success = false;
             return callback(err,self.result);
@@ -93,7 +94,7 @@ define([
 
         if(!self.activeNode) {
             self._errorMessages(self.activeNode, 'Current node is null - cannot generate template');
-            var err = 'Current node is null';
+            err = 'Current node is null';
             self.logger.error(err);
             self.result.success = false;
             return callback(err, self.result);
