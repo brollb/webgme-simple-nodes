@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/brollb/webgme-simple-nodes.svg?branch=master)](https://travis-ci.org/brollb/webgme-simple-nodes)
 [![Code Climate](https://codeclimate.com/github/brollb/webgme-simple-nodes/badges/gpa.svg)](https://codeclimate.com/github/brollb/webgme-simple-nodes)
 [![npm](https://img.shields.io/npm/v/webgme-simple-nodes.svg?maxAge=2592000)]()
-# 'Simple Nodes' Plugin for the WebGME
+
+# 'Simple Nodes' Plugin for WebGME
 This plugin converts the WebGME nodes to simple JSON objects (where all children are topologically sorted) then calls a custom `Generator` which can be created to create custom text files using these simplified data types.
 
 ## Overview
