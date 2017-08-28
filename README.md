@@ -22,7 +22,7 @@ This library is composed of two objects: `SimpleNodes` and the `Generator`. The 
 If you are using the `webgme-cli`, you can add this to an existing WebGME app with:
 
 ```
-webgme add plugin SimpleNodes brollb/webgme-simple-nodes
+webgme import plugin SimpleNodes brollb/webgme-simple-nodes
 ```
 
 ### Usage
