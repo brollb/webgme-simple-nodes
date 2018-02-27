@@ -14,7 +14,7 @@ describe('ExamplePlugin', function () {
     var gmeConfig = testFixture.getGmeConfig(),
         expect = testFixture.expect,
         logger = testFixture.logger.fork('ExamplePlugin'),
-        BlobClient = require('webgme/src/server/middleware/blob/BlobClientWithFSBackend'),
+        BlobClient = require('webgme-engine/src/server/middleware/blob/BlobClientWithFSBackend'),
         blobClient = new BlobClient(gmeConfig, logger),
         PluginCliManager = testFixture.WebGME.PluginCliManager,
         projectName = 'testProject',
