@@ -137,18 +137,17 @@ define([
         }
 
         // Load virtual tree
-        this.loadVirtualTree(this.activeNode).then(tree => {
-
+        return this.loadVirtualTree(this.activeNode)
             // Retrieve & populate templates in topological order
-            var output = this.generator.createOutputFiles(tree);
+            .then(tree => this.generator.createOutputFiles(tree))
+            .then(output => {
+                // Save file
+                var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
 
-            // Save file
-            var name = this.core.getAttribute(this.activeNode, 'name')+'_results';
-
-            this._saveOutput(name, output, callback);
-            _.templateSettings = oldSettings;
-        })
-        .fail(err => callback(`Generating results failed: ${err}`));
+                this._saveOutput(name, output, callback);
+                _.templateSettings = oldSettings;
+            })
+            .catch(err => callback(err, this.result));
 
     };
 
@@ -426,13 +425,13 @@ define([
             fileCount = files.length,
             onFileSave = function(err) {
                 if(err){
-                    return callback(err);
+                    return callback(err, self.result);
                 } 
 
                 if (--fileCount === 0) {
                     self.blobClient.saveAllArtifacts(function(err, hashes) {
                         if (err) {
-                            callback(err);
+                            callback(err, self.result);
                         } else {
                             self.logger.info('Artifacts are saved here:');
                             self.logger.info(hashes);
@@ -452,7 +451,7 @@ define([
         if (fileCount === 1) {
             this.blobClient.putFile(files[0], filesBlob[files[0]], function(err, hash) {
                 if (err) {
-                    return callback(err);
+                    return callback(err, self.result);
                 }
 
                 self.logger.info('Artifacts saved as ' + files[0]);
